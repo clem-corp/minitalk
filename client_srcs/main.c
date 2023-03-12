@@ -6,8 +6,13 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:43 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/11 01:27:11 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:24:16 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client_srcs.h"
+
+int main()
+{
+	return (0);
+}

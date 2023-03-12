@@ -6,7 +6,7 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:31:27 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/11 01:39:02 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/12 20:23:24 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@ static void	ft_print_int(pid_t pid)
 		ft_print_int(pid / 10);
 	pid = pid % 10 + '0';
 	write(1, &pid, 1);
-}
-
-int	ft_strlen(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s && *(s + i))
-		i++;
-	return (i);
 }
 
 void	print_pid(void)

@@ -6,7 +6,7 @@
 #    By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 22:42:52 by clacaill          #+#    #+#              #
-#    Updated: 2023/03/11 01:05:23 by clacaill         ###   ########.fr        #
+#    Updated: 2023/03/12 20:19:14 by clacaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,18 +16,24 @@ BUILD			:=
 #Client compilation
 CLI	    	= client
 CLI_DIR		= ./client_srcs/
-CLI_SRCS	= client.c parser.c
+CLI_SRCS	= main.c
 CLI_OBJS	= $(addprefix ${CLI_DIR}, ${CLI_SRCS:.c=.o})
 CLI_DEPS	= $(addprefix ${CLI_DIR}, ${CLI_SRCS:.c=.d})
 
 #Server compilation
 SRV			= server
 SRV_DIR		= ./server_srcs/
-SRV_SRCS	= server.c print.c
+SRV_SRCS	= main.c utils.c
 SRV_OBJS	= $(addprefix ${SRV_DIR}, ${SRV_SRCS:.c=.o})
 SRV_DEPS	= $(addprefix ${SRV_DIR}, ${SRV_SRCS:.c=.d})
 
+# Lib compilation
+LIBFT		= ./libft/libft.a
+LIBFT_DIR	= ./libft/
+LIBFT_MAKE	= make -C ${LIBFT_DIR}
+
 CC			= cc
+CLIB		= -L${LIBFT_DIR} -lft
 MAKE		= make
 CLEAN		= make clean
 FCLEAN		= make fclean
@@ -47,23 +53,28 @@ all:    ${SRV} ${CLI}
 
 bonus:	all
 
-${CLI}:${CLI_OBJS}
-		${CC} ${CFLAGS} ${CLI_OBJS} -o ${CLI}
+${CLI}:${CLI_OBJS} ${LIBFT}
+		${CC} ${CFLAGS} ${CLI_OBJS} ${CLIB} -o ${CLI}
 
-${SRV}:${SRV_OBJS}
-		${CC} ${CFLAGS} ${SRV_OBJS} -o ${SRV}
+${SRV}:${SRV_OBJS} ${LIBFT}
+		${CC} ${CFLAGS} ${SRV_OBJS} ${CLIB} -o ${SRV}
+
+${LIBFT}:
+	${LIBFT_MAKE}
 
 #Cleaning rules
 clean:
 		${RM} ${CLI_OBJS} ${CLI_DEPS}
 		${RM} ${SRV_OBJS} ${SRV_DEPS}
+		${LIBFT_MAKE} clean
 
 fclean: clean
 		${RM} ${CLI}
 		${RM} ${SRV}
+		${LIBFT_MAKE} fclean
 
 re:     fclean
-		${MAKE} all
+		${LIBFT_MAKE} fclean
 
 #Dependencies list
 -include ${CLI_DEPS} ${SRV_DEPS}
