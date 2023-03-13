@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 01:21:54 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/12 20:12:34 by clacaill         ###   ########.fr       */
+/*   Created: 2023/03/13 23:38:20 by clacaill          #+#    #+#             */
+/*   Updated: 2023/03/13 23:43:57 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef FT_CLIENT_H
-# define FT_CLIENT_H
+#ifndef CLIENT_SRCS_H
+# define CLIENT_SRCS_H
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -21,5 +20,7 @@
 # include <limits.h>
 # include "../libft/libft.h"
 # include <signal.h>
+
+void	send_signal(int pid, char *message);
 
 #endif
