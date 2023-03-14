@@ -6,7 +6,7 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:43 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/14 16:55:44 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:38:51 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	send_signal(int pid, char *message)
 	unsigned long int	j;
 
 	bits = 0;
-	i = -1;
+	i = 0;
 	j = 0;
-	while (message[++i])
+	while (message[i])
 	{
 		bits = (bits << 8) | message[i];
-		j = -1;
+		j = 0;
 		while (j < 8)
 		{
 			if ((bits & (1 << j)) != 0)
@@ -50,6 +50,7 @@ void	send_signal(int pid, char *message)
 			usleep(800);
 			j++;
 		}
+		i++;
 	}
 	end_signal(pid);
 	return ;

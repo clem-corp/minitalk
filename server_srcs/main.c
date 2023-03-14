@@ -6,7 +6,7 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:33 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/14 17:00:46 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:37:45 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	action(int sig, siginfo_t *info, void *c __attribute__((unused)))
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	struct sigaction	srv_action;
 	sigset_t			set;
