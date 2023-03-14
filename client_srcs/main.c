@@ -6,59 +6,69 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:43 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/13 22:22:14 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:55:44 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client_srcs.h"
 
-void send_signal(int pid, char *message);
-
-int main(int argc, char *argv[])
+void	end_signal(int pid)
 {
-	if (argc != 3)
+	int	j;
+
+	j = 0;
+	while (j < 8)
 	{
-		ft_printf( "Usage: ./client <server_pid> <message>\n");
-		return(-1);
+		kill(pid, SIGUSR1);
+		usleep(800);
+		j++;
 	}
-
-	int server_pid = ft_atoi(argv[1]);
-	char *message = argv[2];
-
-	send_signal(server_pid, message);
-	return 0;
+	return ;
 }
 
-void send_signal(int pid, char *message)
+// SIGUSR1 == 1
+// SIGUSR2 == 0
+void	send_signal(int pid, char *message)
 {
-	unsigned char bits;
-	unsigned long int i;
-	unsigned long int j;
+	unsigned char		bits;
+	unsigned long int	i;
+	unsigned long int	j;
 
 	bits = 0;
-	i = 0;
+	i = -1;
 	j = 0;
-	while(message[i])
+	while (message[++i])
 	{
 		bits = (bits << 8) | message[i];
-		j = 0;
-		while(j < 8)
+		j = -1;
+		while (j < 8)
 		{
-			if ((bits & (1 << j)) != 0) //1
+			if ((bits & (1 << j)) != 0)
 				kill(pid, SIGUSR1);
-			else // 0
+			else
 				kill(pid, SIGUSR2);
 			usleep(800);
 			j++;
 		}
-		i++;
 	}
-	j = 0;
-	while (j < 8)
+	end_signal(pid);
+	return ;
+}
+
+int	main(int argc, char **argv)
+{
+	int		server_pid;
+	char	*message;
+
+	server_pid = 0;
+	message = NULL;
+	if (argc != 3)
 	{
-		kill(pid, SIGUSR1); // end
-		usleep(800);
-		j++;
+		ft_printf("Usage: ./client <server_pid> <message>\n");
+		return (-1);
 	}
-	return;
+	server_pid = ft_atoi(argv[1]);
+	message = argv[2];
+	send_signal(server_pid, message);
+	return (0);
 }

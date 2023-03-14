@@ -6,7 +6,7 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:33 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/13 23:30:06 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:00:46 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ unsigned char	*add_buff(unsigned char *buff, unsigned char count)
 
 	i = -1;
 	len = 0;
-	if(ft_strlen_spe(buff) != 0)
+	if (ft_strlen_spe(buff) != 0)
 		len = ft_strlen_spe(buff);
 	temp = malloc((len + 2) * sizeof(char));
 	if (!temp)
-		return(ft_free(&buff));
+		return (ft_free(&buff));
 	if (len == 0)
 	{
 		temp[0] = count;
@@ -42,34 +42,35 @@ unsigned char	*add_buff(unsigned char *buff, unsigned char count)
 	}
 	else
 	{
-		while(buff[++i])
+		while (buff[++i])
 			temp[i] = buff[i];
 		ft_free(&buff);
 		temp[i] = count;
 		temp[++i] = '\0';
 	}
-	return(temp);
+	return (temp);
 }
 
-void action(int signum, siginfo_t *info, void *context __attribute__((unused)))
+void	action(int sig, siginfo_t *info, void *c __attribute__((unused)))
 {
-	static unsigned char bits = 0;
-	static int count = 0;
+	static unsigned char	bits = 0;
+	static int				count = 0;
 	static unsigned char	*buff = NULL;
-	pid_t client_pid = info->si_pid;
+	pid_t					client_pid;
 
-	if (client_pid && signum == SIGUSR1)
+	client_pid = info->si_pid;
+	if (client_pid && sig == SIGUSR1)
 		count = count | 1 << bits;
 	bits++;
 	if (bits == 8 && count != 255)
 	{
-		buff = add_buff(buff, count); // Enregistrer le caractère
+		buff = add_buff(buff, count);
 		count = 0;
 		bits = 0;
 	}
 	else if (bits == 8 && count == 255)
 	{
-		ft_printf("%s",buff);
+		ft_printf("%s", buff);
 		ft_printf("\n\nEnd of the transmission.\n\n");
 		ft_free(&buff);
 		bits = 0;
@@ -78,7 +79,7 @@ void action(int signum, siginfo_t *info, void *context __attribute__((unused)))
 	}
 }
 
-int main()
+int	main(int argc, char **argv)
 {
 	struct sigaction	srv_action;
 	sigset_t			set;
@@ -94,5 +95,5 @@ int main()
 	printf("Server PID: %d\n", getpid());
 	while (1)
 		pause();
-	return 0;
+	return (0);
 }
