@@ -6,7 +6,7 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:43 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/14 17:38:51 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:16:38 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ void	send_signal(int pid, char *message)
 	return ;
 }
 
+void	signal_handler(int sig)
+{
+	ft_printf("Received signal");
+	exit(sig);
+}
+
 int	main(int argc, char **argv)
 {
 	int		server_pid;
@@ -68,8 +74,10 @@ int	main(int argc, char **argv)
 		ft_printf("Usage: ./client <server_pid> <message>\n");
 		return (-1);
 	}
+	signal(SIGUSR1, signal_handler);
 	server_pid = ft_atoi(argv[1]);
 	message = argv[2];
 	send_signal(server_pid, message);
+	pause();
 	return (0);
 }

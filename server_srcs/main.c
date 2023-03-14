@@ -6,7 +6,7 @@
 /*   By: clacaill <clacaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 01:22:33 by clacaill          #+#    #+#             */
-/*   Updated: 2023/03/14 17:37:45 by clacaill         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:08:46 by clacaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ void	action(int sig, siginfo_t *info, void *c __attribute__((unused)))
 	static unsigned char	bits = 0;
 	static int				count = 0;
 	static unsigned char	*buff = NULL;
-	pid_t					client_pid;
 
-	client_pid = info->si_pid;
-	if (client_pid && sig == SIGUSR1)
+	if (sig == SIGUSR1)
 		count = count | 1 << bits;
 	bits++;
 	if (bits == 8 && count != 255)
@@ -70,12 +68,13 @@ void	action(int sig, siginfo_t *info, void *c __attribute__((unused)))
 	}
 	else if (bits == 8 && count == 255)
 	{
+		kill(info->si_pid, SIGUSR1);
+		usleep(800);
 		ft_printf("%s", buff);
-		ft_printf("\n\nEnd of the transmission.\n\n");
 		ft_free(&buff);
 		bits = 0;
 		count = 0;
-		buff = NULL;
+		ft_printf("\n\nEnd of the transmission.\n\n");
 	}
 }
 
